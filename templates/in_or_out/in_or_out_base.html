@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %} {{ block.super }} {% endblock %}
+
+{% block body_outer %}
+  {% block body %}
+  <h1>Εντός ή Εκτός ;</h1>
+
+        <div class="container">
+
+            <div class="row">
+
+                {% block content %}{% endblock %}
+
+            </div>
+
+        </div>
+        <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+
+        <script language="javascript" type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  {% endblock body %}
+  {% block sidebar %}{% endblock sidebar %}
+{% endblock body_outer %}
+

@@ -1,0 +1,48 @@
+{% extends "in_or_out/in_or_out_base.html" %}
+
+{% block content %}
+    <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και ελέγξτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που αντιπροσωπεύουν</p>
+    <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="latitude">Latitude:</label>
+            <input id="id_latitude" name="latitude" type="text" class="form-control"></input>
+        </div>
+
+        <div class="form-group">
+            <label for="longitude">Longitude:</label>
+            <input id="id_longitude" name="longitude" type="text" class="form-control"></input>
+        </div>
+
+        <div class="form-group">
+          <label for="layer">Select a layer:</label>
+          <select id="dropdown">
+            <option value="">None</option>
+            <option value="natura">Natura</option>
+            <option value="oikismoi">Oikismoi</option>
+          </select>
+          <input id="id_layer" name="layer" type="text" class="form-control"></input>
+        <script type="text/javascript">
+          // script to fill a form fild after clicking a dropdown list
+          var mymodel = document.getElementById('id_layer');
+          var mydropdown = document.getElementById('dropdown');
+          
+          mydropdown.onchange = function(){
+                mymodel.value = this.value;
+           }
+         </script>
+        </div>
+        
+
+
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </form>
+    
+    <script language="javascript" type="text/javascript">
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = document.getElementById('id_latitude');
+            var lon = document.getElementById('id_longitude');
+            lat.value = position.coords.latitude;
+            lon.value = position.coords.longitude;
+        });
+    </script>
+{% endblock %}
