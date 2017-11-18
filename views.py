@@ -42,10 +42,10 @@ class LookupView(FormView):
         if layer == 'natura':
             # Database query to detect if the location 
             # is in a regions of the models' regions 
-            in_out = Natura.objects.filter(geom__contains=location)
+            in_out = Natura.objects.using('datastore').filter(geom__contains=location)
             result = inform_user(layer, in_out)
         if layer == 'oikismoi':
-            in_out = Oikismoi.objects.filter(geom__contains=location)
+            in_out = Oikismoi.objects.using('datastore').filter(geom__contains=location)
             result = inform_user(layer, in_out)
 
         # Render the template
