@@ -46,11 +46,3 @@ class Oikismoi(models.Model):
         return self.onomasia or u''
 
 
-class Loc(models.Model):
-    name = models.CharField(max_length=200)
-    location = models.PointField()
-
-    def __str__(self):
-        return self.name
-
-

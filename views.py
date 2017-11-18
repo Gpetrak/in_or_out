@@ -3,7 +3,6 @@ from django.views.generic.edit import FormView
 from geonode.in_or_out.forms import LookupForm
 from geonode.in_or_out.models import Natura
 from geonode.in_or_out.models import Oikismoi
-from geonode.in_or_out.models import Loc
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos.geometry import GEOSGeometry
 from django.contrib.gis.measure import D # 'D' is a shortcut for 'Distance'
