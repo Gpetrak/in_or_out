@@ -1,6 +1,15 @@
 {% extends "in_or_out/in_or_out_base.html" %}
 
 {% block content %}
+    <style>
+      html, body, #container, #map {
+      padding: 0;
+      margin: 0;
+    }
+      html, body, #map, #container {
+      height: 300px;
+    }
+     </style>
     <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και ελέγξτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
@@ -11,6 +20,10 @@
         <div class="form-group">
             <label for="longitude">Longitude:</label>
             <input id="id_longitude" name="longitude" type="text" class="form-control"></input>
+            :: or, enter your own lat-long values and <input type="button" value="Jump there" 
+            onClick="updateLatLng(document.getElementById('id_latitude').value,document.getElementById('id_longitude').value,1)">
+            :: <a href="#" onclick="map.zoomOut(3, {animate:true})">zoom out</a> ::
+            :: <a href="#" onclick="map.zoomIn(3, {animate:true})">zoom in</a>
         </div>
 
         <div class="form-group">
@@ -44,5 +57,42 @@
             lat.value = position.coords.latitude;
             lon.value = position.coords.longitude;
         });
+    </script>
+    <div id="map"></div>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script>
+    var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
+    });
+    var rememberLat = document.getElementById('id_latitude').value;
+    var rememberLong = document.getElementById('id_longitude').value;
+    if( !rememberLat || !rememberLong ) { rememberLat = 35.22; rememberLong = 24.88;}
+    var map = new L.Map('map', {
+        'center': [rememberLat, rememberLong],
+        'zoom': 8,
+        'layers': [tileLayer]
+        });
+    var marker = L.marker([rememberLat, rememberLong],{
+       draggable: true
+       }).addTo(map);
+    marker.on('dragend', function (e) {
+    updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+    });
+    map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+        });
+    function updateLatLng(lat,lng,reverse) {
+        if(reverse) {
+            marker.setLatLng([lat,lng]);
+        map.panTo([lat,lng]);
+        } else {
+            document.getElementById('id_latitude').value = marker.getLatLng().lat;
+            document.getElementById('id_longitude').value = marker.getLatLng().lng;
+        map.panTo([lat,lng]);
+    }
+    }
+    
     </script>
 {% endblock %}
