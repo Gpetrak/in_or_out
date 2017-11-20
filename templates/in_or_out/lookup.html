@@ -4,13 +4,15 @@
     <style>
       html, body, #container, #map {
       padding: 0;
-      margin: 0;
-    }
+      margin-top: 20px;
+      margin-bottom: 50px;
+      }
       html, body, #map, #container {
       height: 300px;
     }
      </style>
     <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και ελέγξτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
+      <div class="col-sm-6">
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
             <label for="latitude">Latitude:</label>
@@ -45,7 +47,8 @@
 
         <input class="btn btn-primary" type="submit" value="Submit" />
     </form>
-    
+    </div>
+    <div class="col-sm-6">
     <script language="javascript" type="text/javascript">
         navigator.geolocation.getCurrentPosition(function (position) {
             var lat = document.getElementById('id_latitude');
