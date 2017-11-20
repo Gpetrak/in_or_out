@@ -49,18 +49,17 @@
     </form>
     </div>
     <div class="col-sm-6">
-    <script language="javascript" type="text/javascript">
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = document.getElementById('id_latitude');
-            var lon = document.getElementById('id_longitude');
-            lat.value = position.coords.latitude;
-            lon.value = position.coords.longitude;
-        });
     </script>
     <div id="map"></div>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <script>
+     navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = document.getElementById('id_latitude');
+            var lon = document.getElementById('id_longitude');
+            lat.value = position.coords.latitude;
+            lon.value = position.coords.longitude;
+        });
     var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
     });
