@@ -1,10 +1,18 @@
 {% extends "in_or_out/in_or_out_base.html" %}
 {% block content %}
+
+  <style>
+  .btn-primary {
+     margin-bottom: 10px;
+     }
+  </style>
+
+  <!-- button in order to return to the first page or the app -->
+  <a href="http://localhost:8000/in_or_out/" class="btn btn-primary" role="button">Επιστροφή</a>
     {% load leaflet_tags %}
     {% leaflet_js %}
     {% leaflet_css %}
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="{{ STATIC_URL }}lib/js/L.TileLayer.BetterWMS.js"></script>
 
     {% leaflet_map "mapid" %}
    <script>
@@ -25,24 +33,9 @@
 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
       }).addTo(mymap);
    
-    //d  var url = 'http://localhost:8080/geoserver/wms'; 
-    
-    //  L.tileLayer.betterWms(url, {
-    //    layers: 'geonode_dev:odiko_diktyo_kritis',
-    //    transparent: true,
-    //    format: 'image/png'
-    //  }).addTo(mymap); 
-
- 
-     // L.geoJSON(geojsonFeature, {
-     //           style: roads_style
-     //         }).addTo(mymap);
-
      // add a marker on the location of the user
       var marker = L.marker([latitude, longitude]).addTo(mymap);
       marker.bindPopup("{{ result | safe }}").openPopup();
       
 </script>
-  <!-- button in order to return to the first page or the app -->
-  <a href="http://localhost:8000/in_or_out/" class="btn btn-info" role="button">Επιστροφή</a>
 {% endblock %}

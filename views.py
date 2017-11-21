@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.views.generic.edit import FormView
 from geonode.in_or_out.forms import LookupForm
@@ -33,9 +34,9 @@ class LookupView(FormView):
         # check if the list of regions is empty
         def inform_user(data, regions): 
             if not regions:
-                result = "Your location is out of a %s region" % data
+                result = u"Η τοποθεσία σας είναι εκτός περιοχής %s" % data
             else:
-                result = "Your location is in %s region: %s" % (data, regions[0])
+                result = u"Η τοποθεσία σας είναι εντός της περιοχής %s %s" % (data, regions[0])
             return result
 
         if layer == 'natura':
