@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.views.generic.edit import FormView
-from geonode.in_or_out.forms import LookupForm
-from geonode.in_or_out.models import Natura
-from geonode.in_or_out.models import Oikismoi
+from crete_gis.in_or_out.forms import LookupForm
+from crete_gis.in_or_out.models import Natura
+from crete_gis.in_or_out.models import Oikismoi
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos.geometry import GEOSGeometry
 from django.contrib.gis.measure import D # 'D' is a shortcut for 'Distance'
