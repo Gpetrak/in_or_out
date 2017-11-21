@@ -54,43 +54,46 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <script>
-     navigator.geolocation.getCurrentPosition(function (position) {
+     var rememberLat = document.getElementById('id_latitude').value;
+     var rememberLong = document.getElementById('id_longitude').value;
+     function success(position) {
             var lat = document.getElementById('id_latitude');
             var lon = document.getElementById('id_longitude');
             lat.value = position.coords.latitude;
             lon.value = position.coords.longitude;
-        });
-    var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
-    });
-    var rememberLat = document.getElementById('id_latitude').value;
-    var rememberLong = document.getElementById('id_longitude').value;
-    if( !rememberLat || !rememberLong ) { rememberLat = 35.22; rememberLong = 24.88;}
-    var map = new L.Map('map', {
-        'center': [rememberLat, rememberLong],
-        'zoom': 8,
-        'layers': [tileLayer]
-        });
-    var marker = L.marker([rememberLat, rememberLong],{
-       draggable: true
-       }).addTo(map);
-    marker.on('dragend', function (e) {
-    updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
-    });
-    map.on('click', function (e) {
-        marker.setLatLng(e.latlng);
-        updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
-        });
-    function updateLatLng(lat,lng,reverse) {
-        if(reverse) {
-            marker.setLatLng([lat,lng]);
-        map.panTo([lat,lng]);
-        } else {
-            document.getElementById('id_latitude').value = marker.getLatLng().lat;
-            document.getElementById('id_longitude').value = marker.getLatLng().lng;
-        map.panTo([lat,lng]);
-    }
-    }
+       
+            if( !rememberLat || !rememberLong ) { rememberLat = lat.value; rememberLong = lon.value;}
+            var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
+            });
+            var map = new L.Map('map', {
+                'center': [rememberLat, rememberLong],
+                'zoom': 8,
+                'layers': [tileLayer]
+            });
+            var marker = L.marker([rememberLat, rememberLong],{
+                draggable: true
+            }).addTo(map);
+            marker.on('dragend', function (e) {
+            updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+            });
+            map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+            updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+            });
+           function updateLatLng(lat,lng,reverse) {
+               if(reverse) {
+                   marker.setLatLng([lat,lng]);
+                   map.panTo([lat,lng]);
+             } else {
+                  document.getElementById('id_latitude').value = marker.getLatLng().lat;
+                  document.getElementById('id_longitude').value = marker.getLatLng().lng;
+                  map.panTo([lat,lng]);
+                  }       
+             }       
+           };
+     navigator.geolocation.getCurrentPosition(success);
+
     
     </script>
 {% endblock %}
