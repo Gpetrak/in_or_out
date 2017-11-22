@@ -42,10 +42,7 @@
            }
          </script>
         </div>
-        
-
-
-        <input class="btn btn-primary" type="submit" value="Ok !" />
+    <input class="btn btn-primary" type="submit" value="Ok !" />
     </form>
     </div>
     <div class="col-sm-6">
@@ -56,44 +53,34 @@
     <script>
      var rememberLat = document.getElementById('id_latitude').value;
      var rememberLong = document.getElementById('id_longitude').value;
-     function success(position) {
-            var lat = document.getElementById('id_latitude');
-            var lon = document.getElementById('id_longitude');
-            lat.value = position.coords.latitude;
-            lon.value = position.coords.longitude;
-       
-            if( !rememberLat || !rememberLong ) { rememberLat = lat.value; rememberLong = lon.value;}
-            var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
+     if( !rememberLat || !rememberLong ) { rememberLat = 35.1333; rememberLong = 25.0213;}
+     var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
             });
-            var map = new L.Map('map', {
-                'center': [rememberLat, rememberLong],
-                'zoom': 8,
-                'layers': [tileLayer]
-            });
-            var marker = L.marker([rememberLat, rememberLong],{
-                draggable: true
-            }).addTo(map);
-            marker.on('dragend', function (e) {
-            updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
-            });
-            map.on('click', function (e) {
-            marker.setLatLng(e.latlng);
-            updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
-            });
-           function updateLatLng(lat,lng,reverse) {
-               if(reverse) {
-                   marker.setLatLng([lat,lng]);
-                   map.panTo([lat,lng]);
+     var map = new L.Map('map', {
+             'center': [rememberLat, rememberLong],
+             'zoom': 8,
+             'layers': [tileLayer]
+             });
+     var marker = L.marker([rememberLat, rememberLong],{
+         draggable: true
+         }).addTo(map);
+     marker.on('dragend', function (e) {
+        updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+         });
+     map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+        });
+     function updateLatLng(lat,lng,reverse) {
+            if(reverse) {
+                marker.setLatLng([lat,lng]);
+                map.panTo([lat,lng]);
              } else {
                   document.getElementById('id_latitude').value = marker.getLatLng().lat;
                   document.getElementById('id_longitude').value = marker.getLatLng().lng;
                   map.panTo([lat,lng]);
                   }       
-             }       
-           };
-     navigator.geolocation.getCurrentPosition(success);
-
-    
+         }       
     </script>
 {% endblock %}
