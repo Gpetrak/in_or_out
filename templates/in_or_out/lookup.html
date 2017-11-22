@@ -11,21 +11,22 @@
       height: 300px;
     }
      </style>
-    <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και ελέγξτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
+    <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
+    <p> Μετακινείστε το δείκτη που βρίσκεται στο χάρτη ώστε να εμφανιστούν οι αντίστοιχες συντεταγμένες στη φόρμα.</p>
       <div class="col-sm-6">
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
-            <label for="latitude">Latitude:</label>
-            <input id="id_latitude" name="latitude" type="text" class="form-control"></input>
+            <label for="latitude">Γεωγραφικό Πλάτος:</label>
+            <input id="id_latitude" name="latitude" required type="text" class="form-control"></input>
         </div>
 
         <div class="form-group">
-            <label for="longitude">Longitude:</label>
-            <input id="id_longitude" name="longitude" type="text" class="form-control"></input>
+            <label for="longitude">Γεωγραφικό Μήκος:</label>
+            <input id="id_longitude" name="longitude" required type="text" class="form-control"></input>
         </div>
 
         <div class="form-group">
-          <label for="layer">Select a layer:</label>
+          <label for="layer">Επιλέξτε Επιφάνεια:</label>
           <select id="dropdown">
             <option value="">None</option>
             <option value="natura">Περιοχές Natura 2000</option>
