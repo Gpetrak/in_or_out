@@ -6,14 +6,17 @@
       padding: 0;
       margin-top: 20px;
       margin-bottom: 50px;
-      }
-      html, body, #map, #container {
       height: 300px;
-    }
+      }
+      .col-md-6 {
+      margin-top: 50px;
+      }
      </style>
     <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
     <p> Μετακινείστε το δείκτη που βρίσκεται στο χάρτη ώστε να εμφανιστούν οι αντίστοιχες συντεταγμένες στη φόρμα.</p>
-      <div class="col-sm-6">
+  <div class="container">
+    <div class="row"> 
+      <div class="col-md-6">
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
             <label for="latitude">Γεωγραφικό Πλάτος:</label>
@@ -46,8 +49,7 @@
     <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
     </form>
     </div>
-    <div class="col-sm-6">
-    </script>
+    <div class="col-md-6">
     <div id="map"></div>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
@@ -84,4 +86,7 @@
                   }       
          }       
     </script>
+  </div>
+  </div>
+</div>
 {% endblock %}
