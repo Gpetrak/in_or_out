@@ -25,7 +25,8 @@ class LookupView(FormView):
         latitude = form.cleaned_data['latitude']
         longitude = form.cleaned_data['longitude']
         # Get the model for the query
-        layer = form.cleaned_data['layer']
+        natura = form.cleaned_data['natura']
+        oikismoi = form.cleaned_data['oikismoi']
  
 
         # Get Point
@@ -39,18 +40,19 @@ class LookupView(FormView):
                 result = u"Η τοποθεσία σας είναι εντός της περιοχής %s %s" % (data, regions[0])
             return result
 
-        if layer == 'natura':
+        if natura is True:
             # Database query to detect if the location 
             # is in a regions of the models' regions 
             in_out = Natura.objects.using('datastore').filter(geom__contains=location)
-            result = inform_user(layer, in_out)
-        if layer == 'oikismoi':
+            natura_result = inform_user(natura, in_out)
+        if oikismoi is True:
             in_out = Oikismoi.objects.using('datastore').filter(geom__contains=location)
-            result = inform_user(layer, in_out)
+            oikismoi_result = inform_user(oikismoi, in_out)
 
         # Render the template
         return self.render_to_response({
-                                  'result': result,
+                                  'oikismoi_result': oikismoi_result,
+                                  'natura_result': natura_result,
                                   'longitude': longitude,
                                   'latitude': latitude
                                  })

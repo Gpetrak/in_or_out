@@ -1,7 +1,8 @@
-from django.forms import Form, FloatField, CharField
+from django.forms import Form, FloatField, BooleanField
 
 class LookupForm(Form):
     latitude = FloatField()
     longitude = FloatField()
-    layer = CharField(max_length=100)
+    natura = BooleanField(required=False)
+    oikismoi = BooleanField(required=False)
       

@@ -27,7 +27,13 @@
             <label for="longitude">Γεωγραφικό Μήκος:</label>
             <input id="id_longitude" name="longitude" required type="text" class="form-control"></input>
         </div>
-
+       
+       <div class="form-group">
+         <label for="layer">Επιλέξτε Επιφάνειες:</label>
+         <tr><th>Natura:</th><td><input name="natura" type="checkbox" /></td></tr>
+         <tr><th>Oikismoi:</th><td><input name="oikismoi" type="checkbox" /></td></tr>
+       </div>
+       <!--
         <div class="form-group">
           <label for="layer">Επιλέξτε Επιφάνεια:</label>
           <select id="dropdown">
@@ -36,6 +42,8 @@
             <option value="oikismoi">Οικισμοί Ν. Χανίων</option>
           </select>
           <input id="id_layer" name="layer" required type="text" class="form-control"></input>
+      -->
+       <!-- 
         <script type="text/javascript">
           // script to fill a form fild after clicking a dropdown list
           var mymodel = document.getElementById('id_layer');
@@ -45,7 +53,7 @@
                 mymodel.value = this.value;
            }
          </script>
-        </div>
+        </div> -->
     <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
     </form>
     </div>
