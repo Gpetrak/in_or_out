@@ -5,4 +5,5 @@ class LookupForm(Form):
     longitude = FloatField()
     natura = BooleanField(required=False)
     oikismoi = BooleanField(required=False)
-      
+    anadas2015 = BooleanField(required=False)
+    anadasmoi = BooleanField(required=False)  
