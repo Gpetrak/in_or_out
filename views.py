@@ -2,8 +2,7 @@
 from django.shortcuts import render_to_response
 from django.views.generic.edit import FormView
 from crete_gis.in_or_out.forms import LookupForm
-from crete_gis.in_or_out.models import Natura
-from crete_gis.in_or_out.models import Oikismoi
+from crete_gis.in_or_out.models import *
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos.geometry import GEOSGeometry
 from django.contrib.gis.measure import D # 'D' is a shortcut for 'Distance'
@@ -28,8 +27,11 @@ class LookupView(FormView):
         # Get the model for the query
         natura = form.cleaned_data['natura']
         oikismoi = form.cleaned_data['oikismoi']
+        anadas2015 = form.cleaned_data['anadas2015']
+        anadasmoi = form.cleaned_data['anadasmoi']
+
         # A dictionary to store the layers that the user can check in the client side
-        layer_dict = {'natura': natura, 'oikismoi': oikismoi}
+        layer_dict = {'natura': natura, 'oikismoi': oikismoi,'anadas2015': anadas2015, 'anadasmoi': anadasmoi}
         # A list to store the layers that have checked from the user
         layer_checked = []
         # A list to store the resulted messages
