@@ -10,9 +10,17 @@
      height: 500px;
   }
   </style>
+  
+  <!-- Go back button -->
+  <button onclick="goBack()" class="btn btn-primary" role="button">Διόρθωση Θέσης</button>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 
   <!-- button in order to return to the first page or the app -->
-  <a href="/in_or_out/" class="btn btn-primary" role="button">Επιστροφή</a>
+  <a href="/in_or_out/" class="btn btn-primary" role="button">Νέα Θέση</a>
     {% load leaflet_tags %}
     {% leaflet_js %}
     {% leaflet_css %}
