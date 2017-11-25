@@ -40,9 +40,10 @@ class LookupView(FormView):
         location = Point(longitude, latitude, srid=4326)
 
         # check if the list of regions is empty and send a message to the client
-        def inform_user(data, regions): 
+        def inform_user(data, regions, model): 
             if not regions:
-                result = u"Η τοποθεσία σας είναι εκτός περιοχής %s" % data
+                nearest_region = model.objects.using('datastore').distance(location).order_by('distance').first()
+                result = u"Η τοποθεσία σας είναι εκτός περιοχής %s. Η πλησιέστερη περιοχή %s είναι η %s" % (data, data, nearest_region)
             else:
                 result = u"Η τοποθεσία σας είναι εντός της περιοχής %s %s" % (data, regions[0])
             return result
@@ -50,7 +51,7 @@ class LookupView(FormView):
         # query the database and call inform_user in order to return the messages
         def layer(layer_name, model):
             in_out = model.objects.using('datastore').filter(geom__contains=location)
-            info = inform_user(layer_name, in_out)
+            info = inform_user(layer_name, in_out, model)
             return info
         
         # iterate the dict in order to store only the checked layers (when the values are True) 

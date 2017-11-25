@@ -12,7 +12,7 @@
       margin-top: 50px;
       }
      </style>
-    <p>Επιλέξτε μία από τις παρακάτω επιφάνειες και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
+    <p>Επιλέξτε όσες από τις παρακάτω επιφάνειες επιθυμείτε και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
     <p> Μετακινείστε το δείκτη που βρίσκεται στο χάρτη ώστε να εμφανιστούν οι αντίστοιχες συντεταγμένες στη φόρμα.</p>
   <div class="container">
     <div class="row"> 
@@ -27,33 +27,13 @@
             <label for="longitude">Γεωγραφικό Μήκος:</label>
             <input id="id_longitude" name="longitude" required type="text" class="form-control"></input>
         </div>
-       
-       <div class="form-group">
-         <label for="layer">Επιλέξτε Επιφάνειες:</label>
-         <tr><th>Natura:</th><td><input name="natura" type="checkbox" /></td></tr>
-         <tr><th>Oikismoi:</th><td><input name="oikismoi" type="checkbox" /></td></tr>
+       <label>Επιλέξτε Επιφάνειες:</label> 
+       <div class="checkbox">
+         <label>Natura<input type="checkbox" name="natura" value""></label>
        </div>
-       <!--
-        <div class="form-group">
-          <label for="layer">Επιλέξτε Επιφάνεια:</label>
-          <select id="dropdown">
-            <option value="">None</option>
-            <option value="natura">Περιοχές Natura 2000</option>
-            <option value="oikismoi">Οικισμοί Ν. Χανίων</option>
-          </select>
-          <input id="id_layer" name="layer" required type="text" class="form-control"></input>
-      -->
-       <!-- 
-        <script type="text/javascript">
-          // script to fill a form fild after clicking a dropdown list
-          var mymodel = document.getElementById('id_layer');
-          var mydropdown = document.getElementById('dropdown');
-          
-          mydropdown.onchange = function(){
-                mymodel.value = this.value;
-           }
-         </script>
-        </div> -->
+       <div class="checkbox">
+          <label>Oikismoi<input type="checkbox" name = "oikismoi" value""></label>
+       </div>
     <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
     </form>
     </div>
