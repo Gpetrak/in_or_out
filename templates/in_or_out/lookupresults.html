@@ -21,10 +21,8 @@
     {% leaflet_map "mapid" %}
    <script>
 
-  //    var geojsonFeature = {{ new_roads_json|safe }};
-   
-      var natura_result = "{{ natura_result | safe }}"; 
-      var oikismoi_result = "{{ oikismoi_result | safe }}";  
+      // iterate over results python list through django template language 
+      var results = "{% for item in results %} <li>{{ item }}</li>{% endfor %}" 
       var longitude = {{ longitude }};
       var latitude = {{ latitude }};   
       
@@ -37,9 +35,9 @@
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
       }).addTo(mymap);
-  
+      
      var popup = L.popup()
-         .setContent("<ul><li>{{ natura_result | safe }}</li><li>{{ oikismoi_result | safe }}</li></ul>")
+         .setContent(results)
   
      // add a marker on the location of the user
       var marker = L.marker([latitude, longitude]).addTo(mymap);

@@ -9,6 +9,7 @@ from django.contrib.gis.geos.geometry import GEOSGeometry
 from django.contrib.gis.measure import D # 'D' is a shortcut for 'Distance'
 from django.template import RequestContext
 from django.core.serializers import serialize
+from django.db.models.loading import get_model
 import json, ast
 
 
@@ -27,32 +28,49 @@ class LookupView(FormView):
         # Get the model for the query
         natura = form.cleaned_data['natura']
         oikismoi = form.cleaned_data['oikismoi']
+        # A dictionary to store the layers that the user can check in the client side
+        layer_dict = {'natura': natura, 'oikismoi': oikismoi}
+        # A list to store the layers that have checked from the user
+        layer_checked = []
+        # A list to store the resulted messages
+        results = []
  
 
         # Get Point
         location = Point(longitude, latitude, srid=4326)
 
-        # check if the list of regions is empty
+        # check if the list of regions is empty and send a message to the client
         def inform_user(data, regions): 
             if not regions:
                 result = u"Η τοποθεσία σας είναι εκτός περιοχής %s" % data
             else:
                 result = u"Η τοποθεσία σας είναι εντός της περιοχής %s %s" % (data, regions[0])
             return result
-
-        if natura is True:
-            # Database query to detect if the location 
-            # is in a regions of the models' regions 
-            in_out = Natura.objects.using('datastore').filter(geom__contains=location)
-            natura_result = inform_user(natura, in_out)
-        if oikismoi is True:
-            in_out = Oikismoi.objects.using('datastore').filter(geom__contains=location)
-            oikismoi_result = inform_user(oikismoi, in_out)
+        
+        # query the database and call inform_user in order to return the messages
+        def layer(layer_name, model):
+            in_out = model.objects.using('datastore').filter(geom__contains=location)
+            info = inform_user(layer_name, in_out)
+            return info
+        
+        # iterate the dict in order to store only the checked layers (when the values are True) 
+        for key, value in layer_dict.iteritems():
+            if value is True:
+                layer_checked.append(key)
+         
+        for i in layer_checked:
+            # because if layer = natura, model_name = Natura
+            model_name_str = i.capitalize()
+            # a method to return the interested model
+            model_name = get_model('in_or_out', model_name_str)
+            # store into results list the messages that layer function returns
+            results.append(layer(i, model_name)) 
+           
+                 
 
         # Render the template
         return self.render_to_response({
-                                  'oikismoi_result': oikismoi_result,
-                                  'natura_result': natura_result,
+                                  'results': results,
                                   'longitude': longitude,
                                   'latitude': latitude
                                  })
