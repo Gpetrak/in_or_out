@@ -2,42 +2,34 @@
 
 {% block content %}
     <style>
-
-    #map {
-      padding: 0;
-      height: 510px;
-      }
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: auto;}
+    .row.content {height: 100%;
+                  width: 100%;}
     
     /* Set gray background color and 100% height */
     .sidenav {
-      padding: 15px;
+      padding: 15px; 
       background-color: #eee;
-      height: 100%;
+      height: 510px;
+      overflow: scroll;
     }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
         padding: 15px;
       }
-      .row.content {height: auto;} 
     }
+      #map {
+        padding: 0px;
+        width: auto;
+        height: 510px;
+      }
+
      </style>
     <div class="container-fluid">
       <div class="row content">
         <div class="col-sm-3 sidenav">
-    <p>Επιλέξτε όσες από τις παρακάτω επιφάνειες επιθυμείτε και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
-    <p> Μετακινείστε το δείκτη που βρίσκεται στο χάρτη ώστε να εμφανιστούν οι αντίστοιχες συντεταγμένες στη φόρμα.</p>
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
             <label for="latitude">Γεωγραφικό Πλάτος:</label>
@@ -64,7 +56,7 @@
     <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
     </form>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-7">
     <div id="map"></div>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
@@ -102,6 +94,11 @@
          }       
     </script>
   </div>
+  <div class="col-sm-2 sidenav">
+    <p>Επιλέξτε όσες από τις παρακάτω επιφάνειες επιθυμείτε και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
+    <p> Μετακινείστε το δείκτη που βρίσκεται στο χάρτη ώστε να εμφανιστούν οι αντίστοιχες συντεταγμένες στη φόρμα.</p>
+    </div>
+
   </div>
 </div>
 {% endblock %}
