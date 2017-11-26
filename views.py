@@ -31,7 +31,10 @@ class LookupView(FormView):
         anadasmoi = form.cleaned_data['anadasmoi']
 
         # A dictionary to store the layers that the user can check in the client side
-        layer_dict = {'natura': natura, 'oikismoi': oikismoi,'anadas2015': anadas2015, 'anadasmoi': anadasmoi}
+        layer_dict = {'natura': natura, 
+                      'oikismoi': oikismoi,
+                      'anadas2015': anadas2015, 
+                      'anadasmoi': anadasmoi}
         # A list to store the layers that have checked from the user
         layer_checked = []
         # A list to store the resulted messages
@@ -45,6 +48,8 @@ class LookupView(FormView):
         def inform_user(data, regions, model): 
             if not regions:
                 nearest_region = model.objects.using('datastore').distance(location).order_by('distance').first()
+            #    nearest_region_obj = geometry=model.objects.using('datastore').get(name_latin=nearest_region)
+            #   dist = location.distance(rearest_region_obj.geom)
                 result = u"Η τοποθεσία σας είναι εκτός περιοχής %s. Η πλησιέστερη περιοχή %s είναι η %s" % (data, data, nearest_region)
             else:
                 result = u"Η τοποθεσία σας είναι εντός της περιοχής %s %s" % (data, regions[0])
