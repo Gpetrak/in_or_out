@@ -2,21 +2,42 @@
 
 {% block content %}
     <style>
-      html, body, #container, #map {
+
+    #map {
       padding: 0;
-      margin-top: 20px;
-      margin-bottom: 50px;
-      height: 300px;
+      height: 510px;
       }
-      .col-md-6 {
-      margin-top: 50px;
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: auto;}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding: 15px;
+      background-color: #eee;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
       }
+      .row.content {height: auto;} 
+    }
      </style>
+    <div class="container-fluid">
+      <div class="row content">
+        <div class="col-sm-3 sidenav">
     <p>Επιλέξτε όσες από τις παρακάτω επιφάνειες επιθυμείτε και δείτε αν η τοποθεσία που σας ενδιαφέρει βρίσκεται εντός ή εκτός των περιοχών που επιλέξατε.</p>
     <p> Μετακινείστε το δείκτη που βρίσκεται στο χάρτη ώστε να εμφανιστούν οι αντίστοιχες συντεταγμένες στη φόρμα.</p>
-  <div class="container">
-    <div class="row"> 
-      <div class="col-md-6">
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
             <label for="latitude">Γεωγραφικό Πλάτος:</label>
@@ -35,7 +56,7 @@
           <label>Οικισμοί Ν. Χανίων<input type="checkbox" name = "oikismoi" value""></label>
        </div>
        <div class="checkbox">
-          <label>Αναδασωτέες Εκτάσεις Ν.Ηρακλείου<input type="checkbox" name = "anadas2015" value""></label>
+          <label>Αναδασμοί Ν.Ηρακλείου<input type="checkbox" name = "anadas2015" value""></label>
        </div>
        <div class="checkbox">
           <label>Αναδασμοί Ν.Χανίων<input type="checkbox" name = "anadasmoi" value""></label>
@@ -43,7 +64,7 @@
     <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
     </form>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-9">
     <div id="map"></div>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
