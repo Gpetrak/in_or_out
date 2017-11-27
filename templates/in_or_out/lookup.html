@@ -40,33 +40,36 @@
             <label for="longitude">Γεωγραφικό Μήκος:</label>
             <input id="id_longitude" name="longitude" required type="text" class="form-control"></input>
         </div>
-       <label>Επιλέξτε Επιφάνειες:</label> 
+       <label>Επιλέξτε Επιφάνειες:</label>
        <div class="checkbox">
-         <label>Natura 2000<input type="checkbox" name="natura" value""></label>
+          <label><input type="checkbox" class="check" id="checkAll"> Επιλογή όλων</label>
+        </div> 
+       <div class="checkbox">
+         <label>Natura 2000<input type="checkbox" class="check" name="natura" value""></label>
        </div>
        <div class="checkbox">
-          <label>Οικισμοί Ν. Χανίων<input type="checkbox" name = "oikismoi" value""></label>
+          <label>Οικισμοί Ν. Χανίων<input type="checkbox" class="check" name = "oikismoi" value""></label>
        </div>
        <div class="checkbox">
-          <label>Αναδασμοί Ν.Ηρακλείου<input type="checkbox" name = "anadas2015" value""></label>
+          <label>Αναδασμοί Ν.Ηρακλείου<input type="checkbox" class="check" name = "anadas2015" value""></label>
        </div>
        <div class="checkbox">
-          <label>Αναδασμοί Ν.Χανίων<input type="checkbox" name = "anadasmoi" value""></label>
+          <label>Αναδασμοί Ν.Χανίων<input type="checkbox" class="check" name = "anadasmoi" value""></label>
        </div>
        <div class="checkbox">
-         <label>Αρχαιολογικοί Χώροι Ν.Χανίων<input type="checkbox" name = "arxaiologikoi_xwroi" value""></label>
+         <label>Αρχαιολογικοί Χώροι Ν.Χανίων<input type="checkbox" class="check" name = "arxaiologikoi_xwroi" value""></label>
        </div>
        <div class="checkbox">
-         <label>Διανομή ΓΥΣ 5000 Ν.Χανίων<input type="checkbox" name = "dianomi_gys_5000" value""></label>
+         <label>Διανομή ΓΥΣ 5000 Ν.Χανίων<input type="checkbox" class="check" name = "dianomi_gys_5000" value""></label>
         </div>
         <div class="checkbox">
-          <label>Ναυτικό Οχυρό Ν. Χανίων<input type="checkbox" name = "nautiko_oxyro" value""></label>
+          <label>Ναυτικό Οχυρό Ν. Χανίων<input type="checkbox" class="check" name = "nautiko_oxyro" value""></label>
         </div>
         <div class="checkbox">
-          <label>Πράξεις Χ/σμού Ν.Ηρακλείου<input type="checkbox" name = "praxeis_xar_2015"value""></label>
+          <label>Πράξεις Χ/σμού Ν.Ηρακλείου<input type="checkbox" class="check" name = "praxeis_xar_2015"value""></label>
         </div>
         <div class="checkbox">
-          <label>ΣΧΟΟΑΠ Κρουσώνα<input type="checkbox" name = "sxooap_krousona" value""></label>
+          <label>ΣΧΟΟΑΠ Κρουσώνα<input type="checkbox" class="check" name = "sxooap_krousona" value""></label>
         </div>
     <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
     </form>
@@ -74,8 +77,14 @@
     <div class="col-sm-7">
     <div id="map"></div>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" /> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
+     $(document).ready(function() {
+     // script to enable the choice of "check all"
+     $("#checkAll").click(function () {
+         $(".check").prop('checked', $(this).prop('checked'));
+     });
      var rememberLat = document.getElementById('id_latitude').value;
      var rememberLong = document.getElementById('id_longitude').value;
      if( !rememberLat || !rememberLong ) { rememberLat = 35.1333; rememberLong = 25.0213;}
@@ -106,7 +115,8 @@
                   document.getElementById('id_longitude').value = marker.getLatLng().lng;
                   map.panTo([lat,lng]);
                   }       
-         }       
+         }
+    });       
     </script>
   </div>
   <div class="col-sm-2 sidenav">
