@@ -29,12 +29,22 @@ class LookupView(FormView):
         oikismoi = form.cleaned_data['oikismoi']
         anadas2015 = form.cleaned_data['anadas2015']
         anadasmoi = form.cleaned_data['anadasmoi']
+        arxaiologikoi_xwroi = form.cleaned_data['arxaiologikoi_xwroi']
+        dianomi_gys_5000 = form.cleaned_data['dianomi_gys_5000']
+        nautiko_oxyro = form.cleaned_data['nautiko_oxyro']
+        praxeis_xar_2015 = form.cleaned_data['praxeis_xar_2015']
+        sxooap_krousona = form.cleaned_data['sxooap_krousona']
 
         # A dictionary to store the layers that the user can check in the client side
         layer_dict = {'natura': natura, 
                       'oikismoi': oikismoi,
                       'anadas2015': anadas2015, 
-                      'anadasmoi': anadasmoi}
+                      'anadasmoi': anadasmoi,
+                      'arxaiologikoi_xwroi': arxaiologikoi_xwroi,
+                      'dianomi_gys_5000' : dianomi_gys_5000,
+                      'nautiko_oxyro': nautiko_oxyro,
+                      'praxeis_xar_2015' : praxeis_xar_2015,
+                      'sxooap_krousona' : sxooap_krousona}
         # A list to store the layers that have checked from the user
         layer_checked = []
         # A list to store the resulted messages
