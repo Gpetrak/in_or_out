@@ -60,6 +60,16 @@ class LookupView(FormView):
             in_out = model.objects.using('datastore').filter(geom__contains=location)
             info = inform_user(layer_name, in_out, model)
             return info
+
+        # Convert database table names like 'hello_world' with model names like HelloWorld
+        # This is a convention of django when generates models automaticaly. 
+        def table_to_model(table_name):
+            table_name = table_name.split('_')
+            result = ""
+            for i in table_name: 
+            # reconstruct the string
+                result += i[0].upper() + i[1:]
+            return result
         
         # iterate the dict in order to store only the checked layers (when the values are True) 
         for key, value in layer_dict.iteritems():
@@ -67,8 +77,8 @@ class LookupView(FormView):
                 layer_checked.append(key)
          
         for i in layer_checked:
-            # because if layer = natura, model_name = Natura
-            model_name_str = i.capitalize()
+            # because if table_name = layer_name, model_name = LayerName
+            model_name_str = table_to_model(i)
             # a method to return the interested model
             model_name = get_model('in_or_out', model_name_str)
             # store into results list the messages that layer function returns
