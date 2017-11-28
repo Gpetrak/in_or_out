@@ -56,13 +56,24 @@ class LookupView(FormView):
 
         # check if the list of regions is empty and send a message to the client
         def inform_user(data, regions, model): 
+            # A list to store the results of a layer
+            result = []
+            information = "Υπό Ανάπτυξη"
             if not regions:
+                # Build the variables that will be sent into HTML table
+                # Every vaiable is a column
+                answer = "Εκτός"
+                region = "--"
+                # database order_by query
                 nearest_region = model.objects.using('datastore').distance(location).order_by('distance').first()
             #    nearest_region_obj = geometry=model.objects.using('datastore').get(name_latin=nearest_region)
             #   dist = location.distance(rearest_region_obj.geom)
-                result = u"Η τοποθεσία σας είναι εκτός περιοχής %s. Η πλησιέστερη περιοχή %s είναι η %s" % (data, data, nearest_region)
+                result.extend([data, answer, region, nearest_region, information])
             else:
-                result = u"Η τοποθεσία σας είναι εντός της περιοχής %s %s" % (data, regions[0])
+                answer = "Εντός"
+                region = regions[0]
+                nearest_region = "--"
+                result.extend([data, answer, region, nearest_region, information])
             return result
         
         # query the database and call inform_user in order to return the messages
