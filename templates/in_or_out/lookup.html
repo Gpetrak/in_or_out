@@ -1,6 +1,8 @@
 {% extends "in_or_out/in_or_out_base.html" %}
+{% load i18n %}
 
 {% block content %}
+
     <style>
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 100%;
@@ -32,14 +34,26 @@
         <div class="col-sm-3 sidenav">
     <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
         <div class="form-group">
-            <label for="latitude">Γεωγραφικό Πλάτος:</label>
-            <input id="id_latitude" name="latitude" required type="text" class="form-control"></input>
+          <label for="latitude">Γεωγραφικό Πλάτος:</label>
+          <input id="id_latitude" name="latitude" required type="text" class="form-control"></input>
         </div>
 
         <div class="form-group">
             <label for="longitude">Γεωγραφικό Μήκος:</label>
             <input id="id_longitude" name="longitude" required type="text" class="form-control"></input>
         </div>
+
+        <div class="form-group">
+          <label for="x">ΕΓΣΑ 87 > Χ:</label>
+          <input id="id_x" name="x" required type="text" class="form-control"></input>
+        </div>
+
+        <div class="form-group">
+          <label for="y">ΕΓΣΑ 87 > Υ:</label>
+          <input id="id_y" name="y" required type="text" class="form-control"></input>
+        </div>
+
+        
        <label>Επιλέξτε Επιφάνειες:</label>
        <div class="checkbox">
           <label><input type="checkbox" class="check" id="checkAll"> Επιλογή όλων</label>
@@ -79,6 +93,7 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" /> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
     <script>
      $(document).ready(function() {
      // script to enable the choice of "check all"
@@ -111,8 +126,12 @@
                 marker.setLatLng([lat,lng]);
                 map.panTo([lat,lng]);
              } else {
+                  var egsaProj = "+proj=tmerc +lat_0=0 +lon_0=24 +k=0.9996 +x_0=500000 +y_0=0 +ellps=GRS80 +towgs84=-199.87,74.79,246.62,0,0,0,0 +units=m +no_defs";
+                  var egsaCoords = proj4(egsaProj, [lng, lat]);
                   document.getElementById('id_latitude').value = marker.getLatLng().lat;
                   document.getElementById('id_longitude').value = marker.getLatLng().lng;
+                  document.getElementById('id_x').value = egsaCoords[0];
+                  document.getElementById('id_y').value = egsaCoords[1];
                   map.panTo([lat,lng]);
                   }       
          }
