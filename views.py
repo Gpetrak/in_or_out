@@ -49,9 +49,8 @@ class LookupView(FormView):
         layer_checked = []
         # A list to store the resulted messages
         results = []
- 
-
-        # Get Point
+  
+        # Get the point
         location = Point(longitude, latitude, srid=4326)
 
         # check if the list of regions is empty and send a message to the client

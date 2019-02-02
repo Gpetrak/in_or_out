@@ -3,6 +3,14 @@
 
 {% block content %}
 
+<script type="text/javascript"> 
+  function toggle(theform) { 
+      document.getElementById("form1").style.display = "none"; 
+      document.getElementById("form2").style.display = "none"; 
+      document.getElementById(theform).style.display = "block"; 
+  } 
+  </script>
+
     <style>
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 100%;
@@ -29,31 +37,30 @@
       }
 
      </style>
+
     <div class="container-fluid">
       <div class="row content">
         <div class="col-sm-3 sidenav">
-    <form role="form" action="/in_or_out/" method="post">{% csrf_token %}
-        <div class="form-group">
-          <label for="latitude">Γεωγραφικό Πλάτος:</label>
-          <input id="id_latitude" name="latitude" required type="text" class="form-control"></input>
-        </div>
-
-        <div class="form-group">
-            <label for="longitude">Γεωγραφικό Μήκος:</label>
-            <input id="id_longitude" name="longitude" required type="text" class="form-control"></input>
-        </div>
-
-        <div class="form-group">
-          <label for="x">ΕΓΣΑ 87 > Χ:</label>
-          <input id="id_x" name="x" required type="text" class="form-control"></input>
-        </div>
-
-        <div class="form-group">
-          <label for="y">ΕΓΣΑ 87 > Υ:</label>
-          <input id="id_y" name="y" required type="text" class="form-control"></input>
-        </div>
-
+    <form role="form" name="myForm" action="/in_or_out/" method="post">{% csrf_token %}
+        <input type="radio" name="myradio" value="2" onclick="toggle('form2');" checked="checked" />EΓΣΑ-87
+        <input type="radio" name="myradio" value="1" onclick="toggle('form1');"/>WGS-84
+        <br>
+        <div id="form1" class="form-group"  style="display: none;">
+          <label for="latitude">φ:</label>
+          <input id="id_latitude" name="latitude" type="text" class="form-control"></input>
         
+            <label for="longitude">λ:</label>
+            <input id="id_longitude" name="longitude" type="text" class="form-control"></input>
+        </div>
+
+        <div id="form2" class="form-group">
+          <label for="x">Χ:</label>
+          <input id="id_x" name="x" type="text" class="form-control"></input>
+   
+          <label for="y">Υ:</label>
+          <input id="id_y" name="y" type="text" class="form-control"></input>
+        </div>
+
        <label>Επιλέξτε Επιφάνειες:</label>
        <div class="checkbox">
           <label><input type="checkbox" class="check" id="checkAll"> Επιλογή όλων</label>
@@ -85,7 +92,8 @@
         <div class="checkbox">
           <label>ΣΧΟΟΑΠ Κρουσώνα<input type="checkbox" class="check" name = "sxooap_krousona" value""></label>
         </div>
-    <input class="btn btn-primary" type="submit" value="Εφαρμογή" />
+    <input class="btn btn-primary" onclick="srid_transform()" value="test" />
+    <input class="btn btn-primary" type="submit" onclick="srid_transform()" value="Εφαρμογή" />
     </form>
     </div>
     <div class="col-sm-7">
@@ -95,6 +103,42 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
     <script>
+    
+     // EGSA-87 to WGS-84 transformation
+     function srid_transform() {
+      // var wgsProj = "+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +no_defs";
+      var egsaProj = "+proj=tmerc +lat_0=0 +lon_0=24 +k=0.9996 +x_0=500000 +y_0=0 +ellps=GRS80 +towgs84=-199.87,74.79,246.62,0,0,0,0 +units=m +no_defs";
+       
+      // Get the values from the form (WGS84 and EGSA87)
+      var lat = document.forms["myForm"]["latitude"].value;
+      var lon = document.forms["myForm"]["longitude"].value;
+      var x = document.forms["myForm"]["x"].value;
+      var y = document.forms["myForm"]["y"].value;
+
+      if ((lat == "" || lon == "") && (!x == "" && !y == "")) {
+        src = new proj4.Proj(egsaProj);
+        //Do the conversion 
+        wgsCoords = proj4(src, proj4.WGS84, [x, y])
+
+        lon = wgsCoords[0];
+        lat = wgsCoords[1];
+        document.getElementById('id_latitude').value = lat;
+        document.getElementById('id_longitude').value = lon;
+        }
+
+      else if ((x == "" || y == "") && (!lat == "" && !lon == "")) {
+         var egsaCoords = proj4(egsaProj, [lon, lat]);
+         document.getElementById('id_x').value = lat;
+         document.getElementById('id_y').value = lon;
+      } 
+      else if ((x == "" && y == "") && (lat == "" && lon == "")) {
+        document.getElementById('id_latitude').value = 35.1333;
+        document.getElementById('id_longitude').value = 25.0213;
+        document.getElementById('id_x').value = 592897.04;
+        document.getElementById('id_y').value = 3888014.16;
+      }
+    }
+
      $(document).ready(function() {
      // script to enable the choice of "check all"
      $("#checkAll").click(function () {
@@ -102,7 +146,14 @@
      });
      var rememberLat = document.getElementById('id_latitude').value;
      var rememberLong = document.getElementById('id_longitude').value;
-     if( !rememberLat || !rememberLong ) { rememberLat = 35.1333; rememberLong = 25.0213;}
+     var rememberX = document.getElementById('id_x').value;
+     var rememberY = document.getElementById('id_y').value;
+     if( !rememberLat || !rememberLong || !rememberX || !rememberY ) { 
+         rememberLat = 35.1333; 
+         rememberLong = 25.0213;
+         rememberX = 592897.04;
+         rememberY = 3888014.16;
+         }
      var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
             });
@@ -135,7 +186,8 @@
                   map.panTo([lat,lng]);
                   }       
          }
-    });       
+     
+   });       
     </script>
   </div>
   <div class="col-sm-2 sidenav">
