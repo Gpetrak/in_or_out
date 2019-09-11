@@ -62,36 +62,27 @@
         </div>
 
        <label>Επιλέξτε Επιφάνειες:</label>
+       <input type="text" id="myInput" onkeyup="find_a_layer()" placeholder="Search..">
+
        <div class="checkbox">
           <label><input type="checkbox" class="check" id="checkAll"> Επιλογή όλων</label>
         </div> 
-       <div class="checkbox">
-         <label>Natura 2000<input type="checkbox" class="check" name="natura" value""></label>
-       </div>
-       <div class="checkbox">
-          <label>Οικισμοί Ν. Χανίων<input type="checkbox" class="check" name = "oikismoi" value""></label>
-       </div>
-       <div class="checkbox">
-          <label>Αναδασμοί Ν.Ηρακλείου<input type="checkbox" class="check" name = "anadas2015" value""></label>
-       </div>
-       <div class="checkbox">
-          <label>Αναδασμοί Ν.Χανίων<input type="checkbox" class="check" name = "anadasmoi" value""></label>
-       </div>
-       <div class="checkbox">
-         <label>Αρχαιολογικοί Χώροι Ν.Χανίων<input type="checkbox" class="check" name = "arxaiologikoi_xwroi" value""></label>
-       </div>
-       <div class="checkbox">
-         <label>Διανομή ΓΥΣ 5000 Ν.Χανίων<input type="checkbox" class="check" name = "dianomi_gys_5000" value""></label>
-        </div>
-        <div class="checkbox">
-          <label>Ναυτικό Οχυρό Ν. Χανίων<input type="checkbox" class="check" name = "nautiko_oxyro" value""></label>
-        </div>
-        <div class="checkbox">
-          <label>Πράξεις Χ/σμού Ν.Ηρακλείου<input type="checkbox" class="check" name = "praxeis_xar_2015"value""></label>
-        </div>
-        <div class="checkbox">
-          <label>ΣΧΟΟΑΠ Κρουσώνα<input type="checkbox" class="check" name = "sxooap_krousona" value""></label>
-        </div>
+
+       <ul style="list-style-type:none; padding-left: 0;" id="myUL">
+        
+        <li><a href="#"><input type="checkbox" class="check" name="natura" value"">Natura 2000</a></li>
+      
+        <li><a href="#"><input type="checkbox" class="check" name = "oikismoi" value"">Οικισμοί Ν. Χανίων</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "anadas2015" value"">Αναδασμοί Ν.Ηρακλείου</a></li>
+      
+        <li><a href="#"><input type="checkbox" class="check" name = "anadas2015" value"">Αναδασμοί Ν.Ηρακλείου</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "anadasmoi" value"">Αναδασμοί Ν.Χανίων</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "arxaiologikoi_xwroi" value"">Αρχαιολογικοί Χώροι Ν.Χανίων</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "dianomi_gys_5000" value"">Διανομή ΓΥΣ 5000 Ν.Χανίων</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "nautiko_oxyro" value"">Ναυτικό Οχυρό Ν. Χανίων</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "praxeis_xar_2015"value"">Πράξεις Χ/σμού Ν.Ηρακλείου</a></li>
+        <li><a href="#"><input type="checkbox" class="check" name = "sxooap_krousona" value"">ΣΧΟΟΑΠ Κρουσώνα</a></li>
+      </ul>
 
     <input class="btn btn-primary" type="submit" onclick="srid_transform()" value="Εφαρμογή" />
     </form>
@@ -104,6 +95,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
     <script>
     
+    function find_a_layer() {
+      // Declare variables
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById('myInput');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("myUL");
+      li = ul.getElementsByTagName('li');
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+            }
+        } 
+   }
+
      // EGSA-87 to WGS-84 transformation
      function srid_transform() {
       // var wgsProj = "+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees +no_defs";
